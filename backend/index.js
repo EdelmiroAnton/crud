@@ -24,6 +24,7 @@ db.connect((err) => {
   console.log("Conectado a la base de datos!");
 });
 
+//Obtener todos los usuarios
 app.get("/user", (req, res) => {
   db.query("SELECT * FROM USERS", (err, rows) => {
     if (err) {
@@ -54,7 +55,7 @@ app.post("/user/add", (req, res) => {
 });
 
 // Actualizar usuarios
-app.put("/usuarios/update/:id", (req, res) => {
+app.put("/user/update/:id", (req, res) => {
   const { id } = req.params;
   const { nombre, email } = req.body;
 
@@ -73,7 +74,7 @@ app.put("/usuarios/update/:id", (req, res) => {
 
 //Eliminar usuarios
 
-app.delete("/usuarios/delete/:id", (req, res) => {
+app.delete("/user/delete/:id", (req, res) => {
   const { id } = req.params;
 
   const query = "DELETE FROM users WHERE id = ?";
