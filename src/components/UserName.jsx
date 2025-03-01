@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { getdata } from "../helpers/fetchdata";
+import { fetchdata } from "../helpers/fetchdata";
+
 const UserName = () => {
   const [DBinfo, setDBinfo] = useState([]);
 
   useEffect(() => {
-    getdata().then((resolve) => setDBinfo(resolve));
+    fetchdata().then((resolve) => setDBinfo(resolve));
   }, []);
   return (
     <>
