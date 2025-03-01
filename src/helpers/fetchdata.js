@@ -1,4 +1,4 @@
-export const getdata = async () => {
+export const fetchdata = async () => {
   try {
     const resp = await fetch("http://localhost:3000/");
     const data = await resp.json();
