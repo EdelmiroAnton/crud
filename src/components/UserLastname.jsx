@@ -9,7 +9,7 @@ const UserLastname = () => {
   return (
     <ul>
       {DBinfo.map((el) => (
-        <li>{el.lastname}</li>
+        <li key={el.id}>{el.lastname}</li>
       ))}
     </ul>
   );
