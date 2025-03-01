@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import UserName from "./components/UserName";
 import UserLastname from "./components/UserLastname";
 import UserAge from "./components/UserAge";
+import UserEmail from "./components/UserEmail";
 
 const App = () => {
   return (
@@ -10,6 +11,7 @@ const App = () => {
       <UserName />
       <UserLastname />
       <UserAge />
+      <UserEmail />
     </>
   );
 };
