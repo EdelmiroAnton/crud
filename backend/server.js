@@ -46,8 +46,8 @@ app.get("/users", (req, res) => {
 
 //Create user (CREATE)
 app.post("/users/add", (req, res) => {
-  console.log("GET BODY" + req.body.name);
-  res.end();
+  // console.log("GET BODY" + req.body.name);
+  // res.end();
   res.send(req.body);
   const { first_name, last_name, age, email } = req.body;
   const query =
