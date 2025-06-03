@@ -104,10 +104,10 @@ app.put("users/update/:id", (req, res) => {
 });
 
 // Delete user (DELETE)
-app.put("/users/delete/:id", (req, res) => {
+app.delete("/users/delete/:id", (req, res) => {
   const { id } = req.params;
-  // const {first_name, last_name, age, email} = req.body
   const query = "DELETE FROM users WHERE id = ?";
+
   db.query(query, [id], (err, results) => {
     if (err) {
       res
