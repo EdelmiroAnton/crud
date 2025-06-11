@@ -36,20 +36,19 @@ app.get("/users", (req, res) => {
       res
         .status(500)
         .send(`Error at getting users. Error Message: ${err.message}`);
-      return;
+    } else {
+      res.json(result);
+      console.log(result);
+      console.log("Data fetched successfully");
     }
-    res.json(result);
-    console.log(result);
-    console.log("Data fetched successfully");
   });
 });
 
 //Create user (CREATE)
 app.post("/users/add", (req, res) => {
-  // console.log("GET BODY" + req.body.name);
-  // res.end();
-  res.send(req.body);
+  console.log(req.body)
   const { first_name, last_name, age, email } = req.body;
+  
   const query =
     "INSERT INTO users (first_name, last_name, age, email) VALUES (?, ?, ?, ?)";
   const values = [first_name, last_name, age, email];
@@ -59,7 +58,6 @@ app.post("/users/add", (req, res) => {
       res
         .status(500)
         .send(`Error creating user. Error Message: ${err.message}`);
-      return;
     } else {
       res.json({
         id: result.insertId,
