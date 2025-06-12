@@ -4,8 +4,9 @@ import axios from "axios";
 const BASE_URL = "http://localhost:3000/users/";
 
 const App = () => {
-  const [user, setUser] = useState([]);
+  const [users, setUsers] = useState([]);
   const [newUser, setNewUser] = useState({
+    id: "",
     first_name: "",
     last_name: "",
     age: "",
@@ -13,17 +14,18 @@ const App = () => {
   });
 
   // GET USERS
+  const getUsers = async () => {
+    try {
+      const response = await axios.get(BASE_URL);
+      setUsers(response.data);
+    } catch (err) {
+      console.error(`Error message: ${err}`);
+    }
+  };
+
   useEffect(() => {
-    const getUsers = async () => {
-      try {
-        const response = await axios.get(BASE_URL);
-        setUser(response.data);
-      } catch (err) {
-        console.error(`Error message: ${err}`);
-      }
-    };
     getUsers();
-  }, [newUser]);
+  }, []);
 
   //CREATE USERS
   const handleCreateUsers = async () => {
@@ -35,47 +37,111 @@ const App = () => {
     }
   };
 
+  //Refresh data from server after create new users. Now the new data will be re-render
+  getUsers();
+
+  //UPDATE USERS
+
+  const handleUpdateUsers = async (id, first_name, last_name, age, email) => {
+    const updateFirstName = prompt("Update First Name", first_name);
+    const updateLastName = prompt("Update Last Name", last_name);
+    const updateAge = prompt("Update Age", age);
+    const updateEmail = prompt("Update Email", email);
+    if (
+      updateFirstName !== first_name ||
+      updateLastName !== last_name ||
+      updateAge !== age ||
+      updateEmail !== email
+    )
+      try {
+        await axios.put(`${BASE_URL}update/${id}`, {
+          first_name: updateFirstName,
+          last_name: updateLastName,
+          age: Number(updateAge),
+          email: updateEmail,
+        });
+
+        setUsers((prevUser) => {
+          prevUser.map((user) => {
+            user.id === id
+              ? {
+                  ...user,
+                  first_name: updateFirstName,
+                  last_name: updateLastName,
+                  age: updateAge,
+                  email: updateEmail,
+                }
+              : user;
+          });
+        });
+        //Refresh data from server after update users. Now the new data will be re-render
+        getUsers();
+        
+      } catch (err) {
+        console.error(`Error message: ${err}`);
+      }
+  };
+
   return (
     <>
       <div>
-        {user.map((el) => (
-          <ul key={el.id}>
-            <li>{el.first_name}</li>
-            <li>{el.last_name}</li>
-            <li>{el.age}</li>
-            <li>{el.email}</li>
-          </ul>
-        ))}
+        {users &&
+          users.map((user) => (
+            <ul key={user.id}>
+              <li>id: {user.id}</li>
+              <li>{user.first_name}</li>
+              <li>{user.last_name}</li>
+              <li>{user.age}</li>
+              <li>{user.email}</li>
+
+              <button
+                onClick={() =>
+                  handleUpdateUsers(
+                    user.id,
+                    user.first_name,
+                    user.last_name,
+                    user.age,
+                    user.email
+                  )
+                }
+              >
+                UPDATE
+              </button>
+            </ul>
+          ))}
+        <label htmlFor="new_name">Name</label>
+        <input
+          id="new_name"
+          type="text"
+          onChange={(e) =>
+            setNewUser({ ...newUser, first_name: e.target.value })
+          }
+        />
+        <label htmlFor="last_name">Last Name</label>
+        <input
+          id="last_name"
+          type="text"
+          onChange={(e) =>
+            setNewUser({ ...newUser, last_name: e.target.value })
+          }
+        />
+
+        <label htmlFor="age">Age</label>
+        <input
+          id="age"
+          type="number"
+          onChange={(e) => setNewUser({ ...newUser, age: e.target.value })}
+        />
+
+        <label htmlFor="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+        />
+
+        <button onClick={handleCreateUsers}>CREATE</button>
       </div>
-
-      <label htmlFor="new_name">Name</label>
-      <input
-        id="new_name"
-        type="text"
-        onChange={(e) => setNewUser({ ...newUser, first_name: e.target.value })}
-      />
-      <label htmlFor="last_name">Last Name</label>
-      <input
-        id="last_name"
-        type="text"
-        onChange={(e) => setNewUser({ ...newUser, last_name: e.target.value })}
-      />
-
-      <label htmlFor="age">Age</label>
-      <input
-        id="age"
-        type="number"
-        onChange={(e) => setNewUser({ ...newUser, age: e.target.value })}
-      />
-
-      <label htmlFor="email">Email</label>
-      <input
-        id="email"
-        type="email"
-        onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-      />
-
-      <button onClick={handleCreateUsers}>CREATE</button>
     </>
   );
 };
