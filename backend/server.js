@@ -46,9 +46,9 @@ app.get("/users", (req, res) => {
 
 //Create user (CREATE)
 app.post("/users/add", (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   const { first_name, last_name, age, email } = req.body;
-  
+
   const query =
     "INSERT INTO users (first_name, last_name, age, email) VALUES (?, ?, ?, ?)";
   const values = [first_name, last_name, age, email];
@@ -72,7 +72,7 @@ app.post("/users/add", (req, res) => {
 });
 
 // Update users (UPDATE)
-app.put("users/update/:id", (req, res) => {
+app.put("/users/update/:id", (req, res) => {
   const { id } = req.params;
   const { first_name, last_name, age, email } = req.body;
   const query = `
@@ -80,9 +80,10 @@ app.put("users/update/:id", (req, res) => {
   first_name = ?, 
   last_name = ?, 
   age = ?, 
-  email = ?   
+  email = ?  
+  WHERE id = ?
   `;
-  const values = [first_name, last_name, age, email];
+  const values = [first_name, last_name, age, email, id];
   db.query(query, values, (err, result) => {
     if (err) {
       res
@@ -91,7 +92,7 @@ app.put("users/update/:id", (req, res) => {
       return;
     } else {
       res.json({
-        id: result.insertId,
+        id,
         first_name,
         last_name,
         age,
