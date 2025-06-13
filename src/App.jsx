@@ -25,7 +25,7 @@ const App = () => {
 
   useEffect(() => {
     getUsers();
-  }, []);
+  }, [users]);
 
   //CREATE USERS
   const handleCreateUsers = async () => {
@@ -36,9 +36,6 @@ const App = () => {
       console.error(`Error message: ${err}`);
     }
   };
-
-  //Refresh data from server after create new users. Now the new data will be re-render
-  getUsers();
 
   //UPDATE USERS
 
@@ -62,6 +59,7 @@ const App = () => {
         });
 
         setUsers((prevUser) => {
+          console.log(prevUser);
           prevUser.map((user) => {
             user.id === id
               ? {
@@ -74,9 +72,6 @@ const App = () => {
               : user;
           });
         });
-        //Refresh data from server after update users. Now the new data will be re-render
-        getUsers();
-        
       } catch (err) {
         console.error(`Error message: ${err}`);
       }
