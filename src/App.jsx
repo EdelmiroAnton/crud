@@ -20,7 +20,7 @@ const App = () => {
       const response = await axios.get(BASE_URL);
       setUsers(response.data);
     } catch (err) {
-      console.error(`Error message: ${err}`);
+      toast.error(`Error message: ${err.message}. Please refresh the website.`);
     }
   };
 
