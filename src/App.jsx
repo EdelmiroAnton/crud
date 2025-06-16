@@ -25,7 +25,7 @@ const App = () => {
 
   useEffect(() => {
     getUsers();
-  }, [users]);
+  }, []);
 
   //CREATE USERS
   const handleCreateUsers = async () => {
@@ -33,12 +33,13 @@ const App = () => {
       const response = await axios.post(`${BASE_URL}add`, newUser);
       console.log(response.data);
     } catch (err) {
+      alert(`${err}. Please try again in a few minutes.`);
       console.error(`Error message: ${err}`);
     }
+    getUsers();
   };
 
   //UPDATE USERS
-
   const handleUpdateUsers = async (id, first_name, last_name, age, email) => {
     const updateFirstName = prompt("Update First Name", first_name);
     const updateLastName = prompt("Update Last Name", last_name);
@@ -75,6 +76,17 @@ const App = () => {
       } catch (err) {
         console.error(`Error message: ${err}`);
       }
+    getUsers();
+  };
+
+  //DELETE USERS
+  const handleDeleteUsers = async (id) => {
+    try {
+      await axios.delete(`${BASE_URL}delete/${id}`);
+    } catch (err) {
+      console.log(err);
+    }
+    getUsers();
   };
 
   return (
@@ -101,6 +113,13 @@ const App = () => {
                 }
               >
                 UPDATE
+              </button>
+              <button
+                onClick={() => {
+                  handleDeleteUsers(user.id);
+                }}
+              >
+                DELETE
               </button>
             </ul>
           ))}
