@@ -31,7 +31,7 @@ const App = () => {
   //CREATE USERS
   const handleCreateUsers = async () => {
     try {
-      const response = await axios.post(`${BASE_URL}add`, newUser);
+      await axios.post(`${BASE_URL}add`, newUser);
       toast.success("User created successfully!");
     } catch (err) {
       toast.error(`${err}. Please try again in a few minutes.`);
