@@ -84,6 +84,7 @@ const App = () => {
   const handleDeleteUsers = async (id) => {
     try {
       await axios.delete(`${BASE_URL}delete/${id}`);
+      toast.success("User deleted!");
     } catch (err) {
       toast.error(`${err}. Please try again in a few minutes.`);
     }
