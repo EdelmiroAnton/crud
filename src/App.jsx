@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 
 const BASE_URL = "http://localhost:3000/users/";
 
@@ -31,10 +32,9 @@ const App = () => {
   const handleCreateUsers = async () => {
     try {
       const response = await axios.post(`${BASE_URL}add`, newUser);
-      console.log(response.data);
+      toast.success("User created successfully!");
     } catch (err) {
-      alert(`${err}. Please try again in a few minutes.`);
-      console.error(`Error message: ${err}`);
+      toast.error(`${err}. Please try again in a few minutes.`);
     }
     getUsers();
   };
@@ -155,6 +155,7 @@ const App = () => {
         />
 
         <button onClick={handleCreateUsers}>CREATE</button>
+        <Toaster />
       </div>
     </>
   );
