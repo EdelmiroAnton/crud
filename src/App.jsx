@@ -73,7 +73,7 @@ const App = () => {
               : user;
           });
         });
-        toast.success("User updated successfully!!")
+        toast.success("User updated successfully!!");
       } catch (err) {
         console.error(`Error message: ${err}`);
       }
@@ -85,7 +85,7 @@ const App = () => {
     try {
       await axios.delete(`${BASE_URL}delete/${id}`);
     } catch (err) {
-      console.log(err);
+      toast.error(`${err}. Please try again in a few minutes.`);
     }
     getUsers();
   };
