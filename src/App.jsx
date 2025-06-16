@@ -73,6 +73,7 @@ const App = () => {
               : user;
           });
         });
+        toast.success("User updated successfully!!")
       } catch (err) {
         console.error(`Error message: ${err}`);
       }
